@@ -11,30 +11,86 @@ html = """
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         <title>Chat</title>
     </head>
+    <style>
+        body {
+          margin: 0 auto;
+          max-width: 800px;
+          padding: 0 20px;
+        }
+        
+        .container {
+          border: 2px solid #dedede;
+          background-color: #f1f1f1;
+          border-radius: 5px;
+          padding: 10px;
+          margin: 10px 0;
+        }
+        
+        .darker {
+          border-color: #ccc;
+          background-color: #ddd;
+        }
+        
+        .container::after {
+          content: "";
+          clear: both;
+          display: table;
+        }
+        
+        .container img {
+          float: left;
+          max-width: 60px;
+          width: 100%;
+          margin-right: 20px;
+          border-radius: 50%;
+        }
+        
+        .container img.right {
+          float: right;
+          margin-left: 20px;
+          margin-right:0;
+        }
+    </style>
     <body>
+        <center>
         <h1>WebSocket Chat</h1>
         <h2>Your ID: <span id="ws-id"></span></h2>
         <form action="" onsubmit="sendMessage(event)">
             <input type="text" id="messageText" autocomplete="off"/>
             <button>Send</button>
         </form>
+        </center>
         <ul id='messages'>
         </ul>
+        
+        
         <script>
             var client_id = Date.now()
             document.querySelector("#ws-id").textContent = client_id;
             var name = document.getElementById('name')
             document.cookie = "client_id="+name+";"
-            var ws = new WebSocket(`ws://chatroom-xwrj.onrender.com/ws/${client_id}`);
+            var ws = new WebSocket(`ws://localhost:8000/ws/${client_id}`);
             ws.onmessage = function(event) {
-                var messages = document.getElementById('messages')
-                var message = document.createElement('li')
+            
+                //var messages = document.getElementById('messages')
+                
+                var div_m = document.createElement('div')
+                div_m.classList.add('container');
+                
+                var img_m = document.createElement('img')
+                img_m.classList.add('right')
+                img_m.style.width = "100%"
+                
+                var p_m = document.createElement('p')
+                
                 var content = document.createTextNode(event.data)
-                message.appendChild(content)
-                messages.appendChild(message)
+                
+                div_m.appendChild(img_m)
+                div_m.appendChild(p_m)
+                p_m.appendChild(content)
+                document.body.appendChild(div_m)
             };
             function sendMessage(event) {
                 var input = document.getElementById("messageText")
