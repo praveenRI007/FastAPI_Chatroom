@@ -1,7 +1,10 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
+from starlette.responses import RedirectResponse
 
 app = FastAPI()
+
+app.add_middleware(HTTPSRedirectMiddleware)
 
 html = """
 <!DOCTYPE html>
