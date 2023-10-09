@@ -23,7 +23,7 @@ html = """
             document.querySelector("#ws-id").textContent = client_id;
             var name = document.getElementById('name')
             document.cookie = "client_id="+name+";"
-            var ws = new WebSocket(`ws://localhost:8000/ws/${client_id}`);
+            var ws = new WebSocket(`ws://chatroom-xwrj.onrender.com/ws/${client_id}`);
             ws.onmessage = function(event) {
                 var messages = document.getElementById('messages')
                 var message = document.createElement('li')
